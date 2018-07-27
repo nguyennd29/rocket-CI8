@@ -3,7 +3,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Random;
 
 public class GameWindow extends JFrame {
 
@@ -19,7 +18,10 @@ public class GameWindow extends JFrame {
 
         this.setVisible(true);
 
+
     }
+
+
 
     private void setupGameCanvas() {
         this.gameCanvas = new GameCanvas();
@@ -44,16 +46,16 @@ public class GameWindow extends JFrame {
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    gameCanvas.positionXPlayer -= 10;
+                    gameCanvas.player.x[0] -= gameCanvas.player.velocityX;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    gameCanvas.positionXPlayer += 10;
+                    gameCanvas.player.x[0] += gameCanvas.player.velocityX;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    gameCanvas.positionYPlayer -= 10;
+                    gameCanvas.player.y[0] -= gameCanvas.player.velocityY;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    gameCanvas.positionYPlayer += 10;
+                    gameCanvas.player.y[0] += gameCanvas.player.velocityY;
                 }
             }
 
@@ -79,6 +81,7 @@ public class GameWindow extends JFrame {
             long currentTime = System.nanoTime();
             if (currentTime - this.lastTime >= 17_000_000) {
                 this.gameCanvas.runAll();
+
                 this.gameCanvas.renderAll();
                 this.lastTime = currentTime;
             }

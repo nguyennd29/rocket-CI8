@@ -12,19 +12,15 @@ import java.util.Random;
 public class GameCanvas extends JPanel {
 
     private List<Star> stars;
-    private BufferedImage playerImage;
+    private List<Enemies> enemies;
     private BufferedImage backBuffered;
-
-    public int positionXPlayer = 600;
-    public int positionYPlayer = 200;
-
-//    public int enemyReachBounderXFlag = 0;
-//    public int enemyReachBounderYFlag = 0;
+    public Player player;
     private Graphics graphics;
-
     private int timeIntervalStar = 0;
+    private int timeIntervalEnemy =0;
 
-    Random rd = new Random();
+    public Random rd = new Random();
+
 
     public GameCanvas() {
         this.setSize(1024, 600);
@@ -32,24 +28,35 @@ public class GameCanvas extends JPanel {
         setupBackBuffered();
         setupCharacter();
 
+
         this.setVisible(true);
     }
 
     private void setupBackBuffered() {
+
         this.backBuffered = new BufferedImage(1024, 600, BufferedImage.TYPE_INT_ARGB);
         this.graphics = this.backBuffered.getGraphics();
     }
 
     private void setupCharacter() {
-        // this.starImage = this.loadImage("resources/images/star.png");
         this.setupStar();
-        this.playerImage = this.loadImage("resources/images/circle.png");
-
+        this.setupPlayer();
+        this.setupEnemy();
     }
 
     private void setupStar() {
         this.stars = new ArrayList<>();
+    }
+    private void setupEnemy() {
+        this.enemies = new ArrayList<>();
+    }
+    private void setupPlayer() {
 
+        player = new Player();
+        player.x[0] = 500;
+        player.y[0] = 500;
+        player.velocityX = 10;
+        player.velocityY = 10;
 
     }
 
@@ -66,16 +73,37 @@ public class GameCanvas extends JPanel {
         this.stars.forEach(star -> {
             star.render(graphics);
         });
-        this.graphics.drawImage(this.playerImage, this.positionXPlayer, this.positionYPlayer, 20, 20, null);
+
+        this.enemies.forEach(enemy -> {
+            enemy.render(graphics);
+        });
+
+        this.player.render(graphics);
 
         this.repaint();
 
     }
 
+    private void renderBackground() {
+        this.graphics.setColor(Color.BLACK);
+        this.graphics.fillRect(0, 0, 1024, 600);
+    }
+
+    private BufferedImage loadImage(String path) {
+        try {  //chong crash khi gap loi~
+            return ImageIO.read(new File(path));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     public void runAll() {
-        this.createStar();
         this.playerMove();
+        this.updatePlayer();
+        this.createStar();
         this.stars.forEach(star -> star.run());
+        this.createEnemy();
+        this.enemies.forEach(enemy ->enemy.run());
 
 //        if (this.positionXStar >= 1024) {
 //            this.enemyReachBounderXFlag = 1;
@@ -100,13 +128,13 @@ public class GameCanvas extends JPanel {
     }
 
     private void createStar() {
-        if (this.timeIntervalStar == 30) {
+        if (this.timeIntervalStar == 40) {
             Star star = new Star();
             star.x = 1024;
             star.y = this.rd.nextInt(600);
             star.image = this.loadImage("resources/images/star.png");
-            star.width = 5;
-            star.height = 5;
+            star.width = 20;
+            star.height = 20;
             star.velocityX = this.rd.nextInt(3) + 1;
             this.stars.add(star);
             this.timeIntervalStar = 0;
@@ -114,36 +142,50 @@ public class GameCanvas extends JPanel {
             this.timeIntervalStar += 1;
         }
     }
-
-    private void playerMove() {
-        if (this.positionXPlayer > 1024) {
-            this.positionXPlayer = 0;
-            this.positionYPlayer = this.rd.nextInt(601);
-        }
-        if (this.positionXPlayer < 0) {
-            this.positionXPlayer = 1024;
-            this.positionYPlayer = this.rd.nextInt(601);
-        }
-        if (this.positionYPlayer > 600) {
-            this.positionYPlayer = 0;
-            this.positionXPlayer = this.rd.nextInt(1025);
-        }
-        if (this.positionYPlayer < 0) {
-            this.positionYPlayer = 600;
-            this.positionXPlayer = this.rd.nextInt(1025);
+    private void createEnemy() {
+        if (this.timeIntervalEnemy == 30) {
+            Enemies enemy = new Enemies();
+            enemy.x = 1024;
+            enemy.y = this.rd.nextInt(600);
+            enemy.width = 30;
+            enemy.height = 30;
+            enemy.velocityX = this.rd.nextInt(5) + 1;
+            enemy.velocityY = this.rd.nextInt(2) + 1;
+            this.enemies.add(enemy);
+            this.timeIntervalEnemy = 0;
+        } else {
+            this.timeIntervalEnemy += 1;
         }
     }
 
-    private void renderBackground() {
-        this.graphics.setColor(Color.BLACK);
-        this.graphics.fillRect(0, 0, 1024, 600);
-    }
-
-    private BufferedImage loadImage(String path) {
-        try {  //chong crash khi gap loi~
-            return ImageIO.read(new File(path));
-        } catch (IOException e) {
-            return null;
+    public void playerMove() {
+        if (this.player.x[0] > 1024) {
+            this.player.x[0] = 0;
+            // this.y[0] = this.rd.nextInt(601);
+        }
+        if (this.player.x[0] < 0) {
+            this.player.x[0] = 1024;
+            //  this.y[0] = this.rd.nextInt(601);
+        }
+        if (this.player.y[0] > 600) {
+            this.player.y[0] = 0;
+            //  this.x[0] = this.rd.nextInt(1025);
+        }
+        if (this.player.y[0] < 0) {
+            this.player.y[0] = 600;
+            // this.x[0] = this.rd.nextInt(1025);
         }
     }
+
+    public void updatePlayer() {
+
+        this.player.x[1] = this.player.x[0] + 10;
+        this.player.y[1] = this.player.y[0];
+
+        this.player.x[2] = this.player.x[0] + 5;
+        this.player.y[2] = this.player.y[0] + 10;
+    }
+
+
+
 }
