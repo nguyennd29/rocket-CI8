@@ -55,8 +55,8 @@ public class GameCanvas extends JPanel {
         player = new Player();
         player.x[0] = 500;
         player.y[0] = 500;
-        player.velocityX = 10;
-        player.velocityY = 10;
+        player.velocityX = 20;
+        player.velocityY = 20;
 
     }
 
@@ -103,7 +103,7 @@ public class GameCanvas extends JPanel {
         this.createStar();
         this.stars.forEach(star -> star.run());
         this.createEnemy();
-        this.enemies.forEach(enemy ->enemy.run());
+        this.enemies.forEach(enemy ->enemy.run(player.x[0],player.y[0]));
 
 //        if (this.positionXStar >= 1024) {
 //            this.enemyReachBounderXFlag = 1;
@@ -143,7 +143,7 @@ public class GameCanvas extends JPanel {
         }
     }
     private void createEnemy() {
-        if (this.timeIntervalEnemy == 30) {
+        if (this.timeIntervalEnemy == 70) {
             Enemies enemy = new Enemies();
             enemy.x = 1024;
             enemy.y = this.rd.nextInt(600);

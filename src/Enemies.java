@@ -10,14 +10,17 @@ public class Enemies {
     public int x;
     public int y;
 
-    public int velocityX;
-    public int velocityY;
+    public double velocityX;
+    public double velocityY;
 
 
 
-    public void run(){
-        this.x -= velocityX;
-        this.y -= velocityY;
+    public void run(int playerX,int playerY){
+        velocityX = 2*(double)((playerX-this.x)/Math.sqrt((playerX-this.x)*(playerX-this.x)+(playerY-this.y)*(playerY-this.y)));
+        velocityY = 2*(double)((playerY-this.y)/Math.sqrt((playerX-this.x)*(playerX-this.x)+(playerY-this.y)*(playerY-this.y)));
+
+        this.x += velocityX;
+        this.y += velocityY;
     }
 
     public void render(Graphics graphics){
