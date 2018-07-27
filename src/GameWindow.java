@@ -22,7 +22,6 @@ public class GameWindow extends JFrame {
     }
 
 
-
     private void setupGameCanvas() {
         this.gameCanvas = new GameCanvas();
 

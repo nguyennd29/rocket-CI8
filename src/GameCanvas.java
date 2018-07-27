@@ -17,7 +17,7 @@ public class GameCanvas extends JPanel {
     public Player player;
     private Graphics graphics;
     private int timeIntervalStar = 0;
-    private int timeIntervalEnemy =0;
+    private int timeIntervalEnemy = 0;
 
     public Random rd = new Random();
 
@@ -47,9 +47,11 @@ public class GameCanvas extends JPanel {
     private void setupStar() {
         this.stars = new ArrayList<>();
     }
+
     private void setupEnemy() {
         this.enemies = new ArrayList<>();
     }
+
     private void setupPlayer() {
 
         player = new Player();
@@ -103,7 +105,7 @@ public class GameCanvas extends JPanel {
         this.createStar();
         this.stars.forEach(star -> star.run());
         this.createEnemy();
-        this.enemies.forEach(enemy ->enemy.run(player.x[0],player.y[0]));
+        this.enemies.forEach(enemy -> enemy.run(player.x[0], player.y[0]));
 
 //        if (this.positionXStar >= 1024) {
 //            this.enemyReachBounderXFlag = 1;
@@ -142,6 +144,7 @@ public class GameCanvas extends JPanel {
             this.timeIntervalStar += 1;
         }
     }
+
     private void createEnemy() {
         if (this.timeIntervalEnemy == 70) {
             Enemies enemy = new Enemies();
@@ -185,7 +188,6 @@ public class GameCanvas extends JPanel {
         this.player.x[2] = this.player.x[0] + 5;
         this.player.y[2] = this.player.y[0] + 10;
     }
-
 
 
 }

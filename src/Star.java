@@ -14,12 +14,12 @@ public class Star {
     public int velocityX;
 
 
-
-    public void run(){
+    public void run() {
         this.x -= velocityX;
     }
-    public void render(Graphics graphics){
-        graphics.drawImage(this.image,this.x,this.y,this.width,this.height,null);
+
+    public void render(Graphics graphics) {
+        graphics.drawImage(this.image, this.x, this.y, this.width, this.height, null);
     }
 
 }
