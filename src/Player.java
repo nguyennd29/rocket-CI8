@@ -1,20 +1,85 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Player {
+    public Vector2D position;
+    public Vector2D velocity;
 
-    public int x[] = new int[3];
-    public int y[] = new int[3];
+    private List<Vector2D> vertices;
+    private Polygon polygon;
+    public int timeIntervalBullet;
+    public int bulletAngle=0;
+    private List<BulletPlayer> bulletPlayers;
 
-    public int velocityX;
-    public int velocityY;
+    public double angle;
+    public Player() {
+        this.position = new Vector2D();
+        this.velocity = new Vector2D();
+        this.bulletPlayers = new ArrayList<>();
+
+        this.vertices = Arrays.asList(
+                new Vector2D(),
+                new Vector2D(0, 16),
+                new Vector2D(20, 8)
+        );
+        this.polygon = new Polygon();
 
 
-    // public void move() {
-
+    }
+    public void run(){
+        this.position.addUp(velocity);
+        this.shoot();
+    }
 
     public void render(Graphics graphics) {
         graphics.setColor(Color.GREEN);
-        graphics.fillPolygon(this.x, this.y, 3);
+        this.updateTriangle();
+        graphics.fillPolygon(this.polygon);
+        this.bulletPlayers.forEach(bulletPlayer -> bulletPlayer.render(graphics));
+    }
+
+    private void updateTriangle() {
+        this.polygon.reset();
+        Vector2D center = this.vertices
+                .stream()
+                .reduce(new Vector2D(), (v1, v2) -> v1.add(v2))
+                .multiply(1.0f / (float) this.vertices.size())
+                .rotate(this.angle);
+
+        Vector2D translate = this.position.subtract(center);
+
+        this.vertices
+                .stream()
+                .map(vector2D -> vector2D.rotate(angle))
+                .map(vector2D -> vector2D.add(translate))
+                .forEach(vector2D -> polygon.addPoint((int) vector2D.x, (int) vector2D.y));
+
+    }
+    private void shoot() {
+        if (this.timeIntervalBullet == 30) {
+            BulletPlayer bulletPlayer = new BulletPlayer();
+            try {
+                bulletPlayer.image = ImageIO.read(new File("resources/images/powerup_shield.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bulletPlayer.position.set(this.position);
+            bulletPlayer.velocity.set(this.velocity);
+            bulletPlayer.velocity.multiply(3.0f);
+
+            this.bulletPlayers.add(bulletPlayer);
+            this.timeIntervalBullet = 0;
+        } else {
+            this.timeIntervalBullet += 1;
+            this.bulletAngle+=10;
+        }
+
+        this.bulletPlayers.forEach(bulletPlayer -> bulletPlayer.run());
     }
 }
