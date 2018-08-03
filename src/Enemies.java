@@ -34,16 +34,18 @@ public class Enemies {
     }
 
     private void shoot() {
-        if (this.timeIntervalBullet == 2) {
-            BulletEnemy bulletEnemy = new BulletEnemy();
-            try {
-                bulletEnemy.image = ImageIO.read(new File("resources/images/circle.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (this.timeIntervalBullet == 30) {
+            for(double angle=0.0;angle<360;angle+=360/15) {
+                BulletEnemy bulletEnemy = new BulletEnemy();
+                try {
+                    bulletEnemy.image = ImageIO.read(new File("resources/images/circle.png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                bulletEnemy.position.set(this.position);
+                bulletEnemy.velocity.set(new Vector2D(4, 0).rotate(angle));
+                this.bulletEnemies.add(bulletEnemy);
             }
-            bulletEnemy.position.set(this.position);
-            bulletEnemy.velocity.set(new Vector2D(4,0).rotate(bulletAngle));
-            this.bulletEnemies.add(bulletEnemy);
             this.timeIntervalBullet = 0;
         } else {
             this.timeIntervalBullet += 1;

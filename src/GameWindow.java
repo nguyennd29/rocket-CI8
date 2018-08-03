@@ -43,7 +43,7 @@ public class GameWindow extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-
+                
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     gameCanvas.player.angle-=20.0;
 
