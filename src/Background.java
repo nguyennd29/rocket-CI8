@@ -2,9 +2,14 @@ import java.awt.*;
 
 public class Background {
     public Vector2D position;
+    public Renderer renderer;
+
+    public  Background(){
+        position=new Vector2D();
+
+        renderer=new BackgroundRenderer();
+    }
     public void render(Graphics graphics) {
-        this.position=new Vector2D();
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect((int)position.x, (int)position.y, 1024, 600);
+        this.renderer.render(graphics,position);
     }
 }

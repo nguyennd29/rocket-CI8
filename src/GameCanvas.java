@@ -11,15 +11,16 @@ import java.util.Random;
 
 public class GameCanvas extends JPanel {
 
-    private List<Star> stars;
-    private List<Enemies> enemies;
+
     private BufferedImage backBuffered;
     public Player player;
     private Graphics graphics;
-    private int timeIntervalStar = 0;
-    private int timeIntervalEnemy = 0;
     private Background background;
-    private EnemyFollow enemyFollow;
+
+    private EnemyFollowCreate_itf enemyFollowCreate;
+    private EnemyCreate_itf enemyCreate;
+    private StarCreate_itf starCreate;
+
     public Random rd = new Random();
 
 
@@ -30,6 +31,9 @@ public class GameCanvas extends JPanel {
         setupBackground();
         setupCharacter();
 
+        enemyCreate = new EnemyCreate();
+        enemyFollowCreate=new EnemyFollowCreate();
+        starCreate=new StarCreate();
 
         this.setVisible(true);
     }
@@ -43,18 +47,12 @@ public class GameCanvas extends JPanel {
     }
 
     private void setupCharacter() {
-        this.setupStar();
+        //this.setupStar();
         this.setupPlayer();
-        this.setupEnemy();
+        //this.setupEnemy();
+       // this.setupEnemyFollow();
     }
 
-    private void setupStar() {
-        this.stars = new ArrayList<>();
-    }
-
-    private void setupEnemy() {
-        this.enemies = new ArrayList<>();
-    }
 
     private void setupPlayer() {
 
@@ -74,15 +72,17 @@ public class GameCanvas extends JPanel {
 
         this.background.render(graphics);
 
-        this.stars.forEach(star -> {
+        ((StarCreate)starCreate).stars.forEach(star -> {
             star.render(graphics);
         });
         this.player.render(graphics);
 
-        this.enemies.forEach(enemy -> {
+        ((EnemyCreate)this.enemyCreate).enemies.forEach(enemy -> {
             enemy.render(graphics);
         });
 
+        ((EnemyFollowCreate)this.enemyFollowCreate).enemyFollows.forEach(
+                enemyFollow -> enemyFollow.render(graphics));
 
 
         this.repaint();
@@ -96,39 +96,22 @@ public class GameCanvas extends JPanel {
     public void runAll() {
 
         this.player.run();
-        this.createStar();
-        this.stars.forEach(star -> star.run());
-        this.createEnemy();
-        this.enemies.forEach(enemy -> enemy.run(player.position));
+        this.starCreate.create();
+        ((StarCreate)starCreate).stars.forEach(star -> star.run());
+        this.enemyCreate.create();
+        ((EnemyCreate)this.enemyCreate).enemies.forEach(enemy -> enemy.run(player.position));
+
+        this.enemyFollowCreate.create();
+        ((EnemyFollowCreate)this.enemyFollowCreate).enemyFollows.forEach(enemyFollow -> {
+            enemyFollow.update(player.position);
+            enemyFollow.run();
+        });
 
     }
 
-    private void createStar() {
-        if (this.timeIntervalStar == 40) {
-            Star star = new Star();
-            star.position.set(1024, this.rd.nextInt(600));
-            star.velocity.set(this.rd.nextInt(3) + 1, 0);
-            this.stars.add(star);
-            this.timeIntervalStar = 0;
-        } else {
-            this.timeIntervalStar += 1;
-        }
-    }
 
-    private void createEnemy() {
-        if (this.timeIntervalEnemy == 170) {
-            Enemies enemy = new Enemies();
 
-            enemy.position.set(1024,this.rd.nextInt(600));
-            enemy.width = 30;
-            enemy.height = 30;
-            enemy.velocity.set(this.rd.nextInt(5) + 1,this.rd.nextInt(2)+1);
-            this.enemies.add(enemy);
-            this.timeIntervalEnemy = 0;
-        } else {
-            this.timeIntervalEnemy += 1;
-        }
-    }
+
 
 
 

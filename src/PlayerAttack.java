@@ -7,10 +7,10 @@ public class PlayerAttack implements PlayerShoot{
     private  int timeInterval = 0;
     @Override
     public void run(Player player) {
-        if(this.timeInterval==40){
+        if(this.timeInterval==9){
             BulletPlayer bulletPlayer = new BulletPlayer();
             bulletPlayer.position.set(player.position);
-            bulletPlayer.velocity.set(player.velocity.copy()).multiply(1.5f);
+            bulletPlayer.velocity.set(player.velocity.copy()).multiply(2.5f);
             this.bulletPlayers.add(bulletPlayer);
             this.timeInterval =0;
         } else{

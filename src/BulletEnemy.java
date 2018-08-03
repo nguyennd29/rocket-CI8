@@ -6,16 +6,19 @@ public class BulletEnemy {
     public BufferedImage image;
     public Vector2D position;
     public Vector2D velocity;
+    public Renderer renderer;
 
-    public BulletEnemy(){
+    public BulletEnemy() {
         this.position = new Vector2D();
         this.velocity = new Vector2D();
+        this.renderer = new ImageRenderer("resources/images/circle.png", 5, 5);
     }
 
-    public void run(){
+    public void run() {
         this.position.addUp(this.velocity);
     }
-    public void render(Graphics graphics){
-        graphics.drawImage(this.image,(int)this.position.x,(int)this.position.y,5,5,null);
+
+    public void render(Graphics graphics) {
+        this.renderer.render(graphics,this.position);
     }
 }

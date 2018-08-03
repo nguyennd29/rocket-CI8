@@ -11,7 +11,7 @@ public class Star {
     public Star(){
         this.position=new Vector2D();
         this.velocity=new Vector2D();
-        this.renderer = new ImageRenderer("resources/images/star.png",15,15);
+        this.renderer = new ImageRenderer("resources/images/star.png",5,5);
     }
     public void run() {
         this.position.subtractBy(this.velocity);

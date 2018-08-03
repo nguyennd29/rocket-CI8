@@ -8,58 +8,38 @@ import java.util.List;
 
 public class Enemies {
 
-
-    public int width;
-    public int height;
+//    public int width;
+//    public int height;
 
     public Vector2D position;
     public Vector2D velocity;
 
-    public int timeIntervalBullet;
-    public int bulletAngle=0;
-    private List<BulletEnemy> bulletEnemies;
+    public EnemyShoot enemyShoot;
+    public Renderer renderer;
 
     public Enemies(){
-        this.bulletEnemies = new ArrayList<>();
         this.position = new Vector2D();
         this.velocity = new Vector2D();
+        this.enemyShoot = new EnemyAttack();
+        renderer=new ImageRenderer("resources/images/powerup_shield.png",30,30);
+
     }
 
     public void run(Vector2D playerPosition) {
-        this.velocity.x = (float)(2 * ((playerPosition.x - this.position.x) / Math.sqrt((playerPosition.x - this.position.x) * (playerPosition.x - this.position.x) + (playerPosition.y - this.position.y) * (playerPosition.y - this.position.y))));
-        this.velocity.y = (float)(2 * ((playerPosition.y - this.position.y) / Math.sqrt((playerPosition.x - this.position.x) * (playerPosition.x - this.position.x) + (playerPosition.y - this.position.y) * (playerPosition.y - this.position.y))));
-
+       // this.velocity.x = (float)(2 * ((playerPosition.x - this.position.x) / Math.sqrt((playerPosition.x - this.position.x) * (playerPosition.x - this.position.x) + (playerPosition.y - this.position.y) * (playerPosition.y - this.position.y))));
+     //   this.velocity.y = (float)(2 * ((playerPosition.y - this.position.y) / Math.sqrt((playerPosition.x - this.position.x) * (playerPosition.x - this.position.x) + (playerPosition.y - this.position.y) * (playerPosition.y - this.position.y))));
+        this.velocity.set(-1,0);
         this.position.addUp(velocity);
-        this.shoot();
+        this.enemyShoot.run(this);
     }
 
-    private void shoot() {
-        if (this.timeIntervalBullet == 30) {
-            for(double angle=0.0;angle<360;angle+=360/15) {
-                BulletEnemy bulletEnemy = new BulletEnemy();
-                try {
-                    bulletEnemy.image = ImageIO.read(new File("resources/images/circle.png"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                bulletEnemy.position.set(this.position);
-                bulletEnemy.velocity.set(new Vector2D(4, 0).rotate(angle));
-                this.bulletEnemies.add(bulletEnemy);
-            }
-            this.timeIntervalBullet = 0;
-        } else {
-            this.timeIntervalBullet += 1;
-            this.bulletAngle+=10;
-        }
 
-        this.bulletEnemies.forEach(bulletEnemy -> bulletEnemy.run());
-    }
 
     public void render(Graphics graphics) {
-        graphics.setColor(Color.RED);
-        graphics.fillOval((int)this.position.x, (int)this.position.y, this.width, this.height);
-
-        this.bulletEnemies.forEach(bulletEnemy -> bulletEnemy.render(graphics));
+//        graphics.setColor(Color.RED);
+//        graphics.fillOval((int)this.position.x-width/2, (int)this.position.y-height/2, this.width, this.height);
+        this.renderer.render(graphics,position);
+        ((EnemyAttack)this.enemyShoot).bulletEnemies.forEach(bulletEnemy -> bulletEnemy.render(graphics));
     }
 
 }

@@ -52,7 +52,7 @@ public class GameWindow extends JFrame {
                     gameCanvas.player.angle+=20.0;
                     }
 
-                gameCanvas.player.velocity.set(new Vector2D(3.5f,0).rotate(gameCanvas.player.angle));
+                gameCanvas.player.velocity.set(new Vector2D(2.5f,0).rotate(gameCanvas.player.angle));
 
 
                 if (e.getKeyCode() == KeyEvent.VK_UP) {

@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class ImageRenderer implements Renderer {
     private BufferedImage image;
-    private int width;
-    private int height;
+    public int width;
+    public int height;
 
     public ImageRenderer(String path,int width,int height){
         this.width=width;
@@ -25,6 +25,6 @@ public class ImageRenderer implements Renderer {
 
     @Override
     public void render(Graphics graphics, Vector2D position) {
-        graphics.drawImage(this.image,(int) position.x,(int) position.y, this.width, this.height, null);
+        graphics.drawImage(this.image,(int) position.x-width/2,(int) position.y-height/2, this.width, this.height, null);
     }
 }

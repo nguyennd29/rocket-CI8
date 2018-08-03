@@ -9,15 +9,15 @@ public class EnemyFollow {
     public EnemyFollow(){
         this.position=new Vector2D();
         this.velocity=new Vector2D();
-        this.renderer = new ImageRenderer("resources/images/star.png",15,15);
+        this.renderer = new ImageRenderer("resources/images/star.png",40,40);
     }
     public void run() {
-        this.position.subtractBy(this.velocity);
+        this.position.addUp(this.velocity);
     }
 
 
     public void update(Vector2D position){
-        position.subtract(this.position).normalized().multiply(1.5f);
+        this.velocity.set(position.subtract(this.position).normalized().multiply(1.4f));
     }
     public void render(Graphics graphics) {
         this.renderer.render(graphics,position);
