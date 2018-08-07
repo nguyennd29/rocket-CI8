@@ -1,8 +1,6 @@
-import base.Vector2D;
+import base.GameKeyListener;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -31,50 +29,11 @@ public class GameWindow extends JFrame {
     }
 
     private void event() {
-        this.keyboardEvent();
+        this.addKeyListener(new GameKeyListener());
         this.windowEvent();
 
     }
 
-    private void keyboardEvent() {
-        this.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    gameCanvas.player.angle-=20.0;
-
-                }
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    gameCanvas.player.angle+=20.0;
-                    }
-
-                gameCanvas.player.velocity.set(new Vector2D(2.5f,0).rotate(gameCanvas.player.angle));
-
-
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                  //  gameCanvas.player.y[0] -= gameCanvas.player.velocityY;
-                    gameCanvas.player.velocity.multiply(3.0f);
-                }
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                   // gameCanvas.player.y[0] += gameCanvas.player.velocityY;
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    gameCanvas.player.velocity.multiply(1/3.0f);
-                }
-            }
-        });
-
-    }
 
     private void windowEvent() {
         this.addWindowListener(new WindowAdapter() {

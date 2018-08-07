@@ -50,7 +50,7 @@ public class GameCanvas extends JPanel {
 
         this.player = new Player();
         this.player.position.set(200, 300);
-        this.player.velocity.set(6.5f, 0);
+        this.player.velocity.set(2.5f, 0);
         GameObjectManager.instance.add(player);
 
     }
