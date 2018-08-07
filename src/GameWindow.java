@@ -1,3 +1,5 @@
+import base.Vector2D;
+
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -67,7 +69,6 @@ public class GameWindow extends JFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    //  gameCanvas.player.y[0] -= gameCanvas.player.velocityY;
                     gameCanvas.player.velocity.multiply(1/3.0f);
                 }
             }

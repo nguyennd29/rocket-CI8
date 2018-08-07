@@ -1,8 +1,11 @@
+package renderer;
+
+import base.Vector2D;
+
 import java.awt.*;
 import java.util.Arrays;
-import java.util.List;
 
-public class PolygonRenderer implements Renderer  {
+public class PolygonRenderer implements Renderer {
 
     private java.util.List<Vector2D> vertices;
     private Polygon polygon;
