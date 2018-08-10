@@ -2,6 +2,7 @@ package game.enemy;
 
 import base.GameObject;
 import base.Vector2D;
+import physic.BoxCollider;
 import renderer.ImageRenderer;
 
 
@@ -13,25 +14,22 @@ public class Enemies extends GameObject {
 //    public int height;
 
     public Vector2D velocity;
-
-    public EnemyShoot enemyShoot;
-
+    public BoxCollider boxCollider;
     public Enemies() {
 
         this.velocity = new Vector2D();
-        this.enemyShoot = new EnemyAttack();
         renderer = new ImageRenderer("resources/images/powerup_shield.png", 30, 30);
-
+        boxCollider=new BoxCollider(30,30);
+        this.attributes.add(new EnemyShoot());
     }
 
     @Override
     public void run() {
         super.run();
-        // this.velocity.x = (float)(2 * ((playerPosition.x - this.position.x) / Math.sqrt((playerPosition.x - this.position.x) * (playerPosition.x - this.position.x) + (playerPosition.y - this.position.y) * (playerPosition.y - this.position.y))));
-        //   this.velocity.y = (float)(2 * ((playerPosition.y - this.position.y) / Math.sqrt((playerPosition.x - this.position.x) * (playerPosition.x - this.position.x) + (playerPosition.y - this.position.y) * (playerPosition.y - this.position.y))));
         this.velocity.set(-1, 0);
         this.position.addUp(velocity);
-        this.enemyShoot.run(this);
+        this.boxCollider.position.set(this.position.x-15,this.position.y-15);
+
     }
 }
 

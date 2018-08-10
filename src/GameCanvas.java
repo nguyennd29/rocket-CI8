@@ -1,7 +1,6 @@
 import base.GameObjectManager;
 import game.background.Background;
 import game.enemy.EnemyCreate;
-import game.enemyfollow.EnemyFollow;
 import game.enemyfollow.EnemyFollowCreate;
 import game.player.Player;
 import game.star.StarCreate;

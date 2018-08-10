@@ -1,4 +1,4 @@
-import base.GameKeyListener;
+import input.KeyboardInput;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -24,12 +24,11 @@ public class GameWindow extends JFrame {
 
     private void setupGameCanvas() {
         this.gameCanvas = new GameCanvas();
-
         this.add(gameCanvas);
     }
 
     private void event() {
-        this.addKeyListener(new GameKeyListener());
+        this.addKeyListener(KeyboardInput.instance);
         this.windowEvent();
 
     }
@@ -48,10 +47,8 @@ public class GameWindow extends JFrame {
         while (true) {
             long currentTime = System.nanoTime();
             if (currentTime - this.lastTime >= 17_000_000) {
-
                 this.gameCanvas.runAll();
                 this.gameCanvas.renderAll();
-
                 this.lastTime = currentTime;
             }
         }
