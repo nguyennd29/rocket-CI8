@@ -19,6 +19,8 @@ public class Star extends GameObject {
         super.run();
         this.boxCollider.position.set(this.position.x-25,this.position.y-25);
         this.position.subtractBy(this.velocity);
+        if(this.position.x<0)
+            this.isAlive=false;
     }
 
 

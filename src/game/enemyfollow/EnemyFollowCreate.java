@@ -4,6 +4,7 @@ import base.FrameCounter;
 import base.GameObject;
 import base.GameObjectManager;
 
+
 import java.util.Random;
 
 public class EnemyFollowCreate extends GameObject {
@@ -20,7 +21,7 @@ public class EnemyFollowCreate extends GameObject {
     public void run() {
 
         if (frameCounter.run()) {
-            EnemyFollow enemyFollow = new EnemyFollow();
+            EnemyFollow enemyFollow = GameObjectManager.instance.recycle(EnemyFollow.class);
 
             enemyFollow.position.set(1024, this.rd.nextInt(600));
 

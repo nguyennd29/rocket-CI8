@@ -4,6 +4,7 @@ import base.FrameCounter;
 import base.GameObject;
 import base.GameObjectManager;
 
+
 import java.util.Random;
 
 public class EnemyCreate extends GameObject {
@@ -21,7 +22,7 @@ public class EnemyCreate extends GameObject {
     public void run() {
 
         if (frameCounter.run()) {
-            Enemies enemy = new Enemies();
+            Enemies enemy = GameObjectManager.instance.recycle(Enemies.class);
 
             enemy.position.set(1024, this.rd.nextInt(600));
 
